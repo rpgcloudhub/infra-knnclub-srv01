@@ -1,0 +1,27 @@
+# Dados, logs e backups (vao pelo restic, nao Git)
+/data/
+/logs/
+/backups/
+**/*.log
+
+# SEGREDOS — nunca versionar
+**/.env
+**/.env.*
+!**/.env.example
+*.pem
+*.key
+acme.json
+backup.conf
+*token*
+*secret*
+credentials*
+
+# App com repositorio proprio
+/apps/knnclub/
+
+# Sistema
+.DS_Store
+*.tmp
+*.bak
+*.swp
+*~

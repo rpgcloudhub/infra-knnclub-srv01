@@ -1,0 +1,36 @@
+services:
+  traefik:
+    image: traefik:v3.6
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=proxy
+      - --providers.file.directory=/dynamic
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      - --log.level=INFO
+      - --certificatesresolvers.le.acme.dnschallenge.provider=cloudflare
+      - --certificatesresolvers.le.acme.dnschallenge.resolvers=1.1.1.1:53
+      - --certificatesresolvers.le.acme.email=guimaroroberth@gmail.com
+      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /srv/data/traefik/dynamic:/dynamic:ro
+      - /srv/data/traefik/certs:/certs:ro
+      - /srv/data/traefik/letsencrypt:/letsencrypt
+      - /srv/data/traefik/cf-token:/run/cf-token:ro
+    environment:
+      - CF_DNS_API_TOKEN_FILE=/run/cf-token
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
