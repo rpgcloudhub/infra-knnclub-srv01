@@ -15,6 +15,7 @@ backup.conf
 *token*
 *secret*
 credentials*
+auditoria.env
 
 # App com repositorio proprio
 /apps/knnclub/
