@@ -16,6 +16,7 @@ backup.conf
 *secret*
 credentials*
 auditoria.env
+housekeeping.env
 
 # App com repositorio proprio
 /apps/knnclub/
